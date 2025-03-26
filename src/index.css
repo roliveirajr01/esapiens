@@ -1,0 +1,26 @@
+@import "tailwindcss";
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+.bg-blue-600 {
+  background-color: #2563eb;
+}
+
+@layer base {
+  :root {
+    --color-bg: #f3f4f6;
+    --color-text: #111827;
+  }
+  
+  .dark {
+    --color-bg: #1f2937;
+    --color-text: #f9fafb;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+}
