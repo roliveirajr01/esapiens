@@ -32,9 +32,10 @@ cd esapiens
 
 ### 2️⃣ Instalar as dependências
 ```sh
-nvm use || node v20
+nvm use
 npm install
 ```
+> **Nota:** Caso não tenha o nvm configurado, o ideal será a v20 do node.
 
 ### 3️⃣ Rodar o projeto em ambiente de desenvolvimento
 ```sh
