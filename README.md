@@ -1,4 +1,4 @@
-# teste-esapiens
+# Teste eSapiens
 
 ## 📌 Sobre o projeto
 Este projeto é uma aplicação em React utilizando **Vite** como bundler e **Zustand** para gerenciamento de estado. Além disso, possui suporte a **JSON Server** para mock de API e está configurado com **Jest** para testes automatizados.
@@ -26,35 +26,35 @@ Siga os passos abaixo para rodar o projeto localmente:
 
 ### 1️⃣ Clonar o repositório
 ```sh
-  git clone https://github.com/roliveirajr01/esapiens.git
- cd esapiens
+git clone https://github.com/roliveirajr01/esapiens.git
+cd esapiens
 ```
 
 ### 2️⃣ Instalar as dependências
 ```sh
-  nvm use || usar node v20
- npm install (aguarde a instalação)
+nvm use || node v20
+npm install
 ```
 
 ### 3️⃣ Rodar o projeto em ambiente de desenvolvimento
 ```sh
- npm run dev
+npm run dev
 ```
 Isso irá iniciar o Vite na porta `3000` e o JSON Server na porta `3001`.
 
 ### 4️⃣ Executar os testes
 ```sh
- npm test
+npm test
 ```
 
 ### 5️⃣ Gerar o build para produção
 ```sh
- npm run build
+npm run build
 ```
 
 ### 6️⃣ Rodar a prévia do build com a API mock
 ```sh
- npm run preview
+npm run preview
 ```
 
 ---

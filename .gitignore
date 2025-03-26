@@ -27,4 +27,6 @@ dist-ssr
 dev-dist/
 dist/
 
-package-lock.json
+package-lock.json*
+
+# Não inclui as ".env's" para mais praticidade ao rodar o projeto
