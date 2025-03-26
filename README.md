@@ -26,12 +26,13 @@ Siga os passos abaixo para rodar o projeto localmente:
 
 ### 1️⃣ Clonar o repositório
 ```sh
- git clone https://github.com/seu-usuario/teste-esapiens.git
- cd teste-esapiens
+  git clone https://github.com/roliveirajr01/esapiens.git
+ cd esapiens
 ```
 
 ### 2️⃣ Instalar as dependências
 ```sh
+  nvm use || usar node v20
  npm install
 ```
 

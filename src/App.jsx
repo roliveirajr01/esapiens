@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useStore } from "@/store/useStore";
 import CardProduct from "@/components/product/card";
 import priceFilters from "@/helpers/price-filters";

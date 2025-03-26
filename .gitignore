@@ -25,4 +25,6 @@ dist-ssr
 
 
 dev-dist/
-dist/  
+dist/
+
+package-lock.json
