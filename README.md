@@ -33,7 +33,7 @@ Siga os passos abaixo para rodar o projeto localmente:
 ### 2️⃣ Instalar as dependências
 ```sh
   nvm use || usar node v20
- npm install
+ npm install (aguarde a instalação)
 ```
 
 ### 3️⃣ Rodar o projeto em ambiente de desenvolvimento
