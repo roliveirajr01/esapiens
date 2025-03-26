@@ -71,3 +71,5 @@ npm test
 ## 🌐 Suporte a PWA
 O projeto possui suporte básico a PWA utilizando o plugin **Vite Plugin PWA**. Se precisar de ajustes, provavelmente precisarei revisar melhor essa parte, já que não utilizo PWA com frequência.
 
+## 🧑🏽‍💻 Outros Projetos
+Fiquem vontade para acompanhar meu projeto pessoal de estudos: [eCommerce](https://github.com/roliveirajr01/ecommerce)
