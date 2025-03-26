@@ -1,33 +1,32 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   MagnifyingGlassIcon,
-  Bars3Icon,
-  XMarkIcon,
   UserIcon,
   SunIcon,
   MoonIcon,
+  FunnelIcon,
+  ArrowUpIcon,
 } from "@heroicons/react/24/outline";
 import { useStore } from "@/store/useStore";
 import priceFilters from "./price-filters";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [localSearch, setLocalSearch] = useState("");
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const debounceRef = useRef(null);
-  const {
-    theme,
-    actions: { toggleTheme },
-  } = useStore();
 
+  const { theme } = useStore();
   const {
     priceFilter,
-    actions: { setSearchTerm, setPriceFilter },
+    actions: { setSearchTerm, setPriceFilter, toggleTheme },
   } = useStore();
 
   const handleClearFilters = () => {
     setPriceFilter(null);
     setSearchTerm("");
     setLocalSearch("");
+    setIsFiltersOpen(false);
   };
 
   const handleSearch = (e) => {
@@ -43,38 +42,44 @@ export default function Header() {
   const handlePriceFilter = (filterValue) => {
     const newFilter = priceFilter === filterValue ? null : filterValue;
     setPriceFilter(newFilter);
-    setIsMenuOpen(false);
   };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollButton(window.scrollY > 200);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
       className={`${theme === "dark" ? "bg-gray-900 text-gray-300" : "bg-white text-gray-600"} shadow-lg`}
     >
       <nav className="container mx-auto px-4 py-4">
+        {/* Mobile Header */}
         <div className="flex items-center justify-between md:hidden">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 hover:text-blue-400"
-          >
-            {isMenuOpen ? (
-              <XMarkIcon className="h-6 w-6" />
-            ) : (
-              <Bars3Icon className="h-6 w-6" />
-            )}
-          </button>
-
           <h1 className="text-2xl font-bold">
             <span className="text-blue-400">eSapiens</span>Store
           </h1>
 
           <div className="flex items-center gap-4">
             <button onClick={toggleTheme}>
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+              {theme === "dark" ? (
+                <SunIcon className="h-6 w-6" />
+              ) : (
+                <MoonIcon className="h-6 w-6" />
+              )}
             </button>
             <UserIcon className="h-6 w-6" />
           </div>
         </div>
 
+        {/* Desktop Header */}
         <div className="hidden md:flex flex-col md:flex-row gap-4 md:items-center justify-between">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold">
@@ -95,11 +100,7 @@ export default function Header() {
             </div>
 
             <div className="flex justify-center items-center gap-4 mt-2">
-              <span
-                className={`${theme === "dark" ? "text-white" : "text-gray-400"} text-sm`}
-              >
-                Filtrar:
-              </span>
+              <span className="text-sm text-gray-400">Filtrar:</span>
               <div className="flex flex-wrap gap-2 justify-center">
                 {priceFilters.map((filter) => (
                   <button
@@ -141,77 +142,101 @@ export default function Header() {
           </div>
         </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden mt-4 space-y-4">
-            <div className="flex flex-col gap-2">
-              <span className="text-gray-400 dark:text-gray-600">
-                Filtrar por preço:
-              </span>
-              {priceFilters.map((filter) => (
-                <button
-                  key={filter.value}
-                  onClick={() => handlePriceFilter(filter.value)}
-                  className={`px-4 py-2 rounded-lg text-sm text-left ${
-                    priceFilter === filter.value
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-800 dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-gray-300 text-gray-300 dark:text-gray-700"
-                  }`}
-                >
-                  {filter.label}
-                </button>
-              ))}
-              <button
-                onClick={handleClearFilters}
-                className="px-4 py-2 rounded-lg text-sm text-left bg-red-600 text-white hover:bg-red-700"
-              >
-                Limpar Filtros
-              </button>
-            </div>
+        {/* Mobile Fixed Buttons */}
+        <div className="fixed bottom-4 left-4 right-4 flex justify-between md:hidden z-50">
+          <button
+            onClick={() => setIsFiltersOpen(true)}
+            className={`p-3 rounded-full shadow-lg ${
+              theme === "dark"
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
+          >
+            <FunnelIcon className="h-6 w-6" />
+          </button>
 
-            <div className="flex flex-col gap-2">
-              <span className="text-gray-400 dark:text-gray-600">
-                Categorias:
-              </span>
-              {["Notebooks", "Smartphones", "Acessórios", "Ofertas"].map(
-                (cat) => (
-                  <a
-                    key={cat}
-                    href="#"
-                    className="hover:text-blue-400 py-1.5 px-4 rounded-lg bg-gray-800 dark:bg-gray-200 text-gray-300 dark:text-gray-700"
-                  >
-                    {cat}
-                  </a>
-                ),
-              )}
-            </div>
-
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Pesquisar produtos..."
-                className="w-full px-4 py-2 rounded-lg bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={localSearch}
-                onChange={handleSearch}
-              />
-              <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-3 text-gray-400 dark:text-gray-600" />
-            </div>
-
+          {showScrollButton && (
             <button
-              onClick={toggleTheme}
-              className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-800 dark:bg-gray-200 text-gray-300 dark:text-gray-700 hover:text-blue-400"
+              onClick={scrollToTop}
+              className={`p-3 rounded-full shadow-lg ${
+                theme === "dark"
+                  ? "bg-gray-800 hover:bg-gray-700 text-white"
+                  : "bg-gray-200 hover:bg-gray-300 text-gray-900"
+              }`}
             >
-              {theme === "dark" ? (
-                <>
-                  <SunIcon className="h-5 w-5" />
-                  <span>Tema Claro</span>
-                </>
-              ) : (
-                <>
-                  <MoonIcon className="h-5 w-5" />
-                  <span>Tema Escuro</span>
-                </>
-              )}
+              <ArrowUpIcon className="h-6 w-6" />
             </button>
+          )}
+        </div>
+
+        {/* Mobile Filters Modal */}
+        {isFiltersOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-50"
+            onClick={() => setIsFiltersOpen(false)}
+          >
+            <div
+              className={`absolute bottom-0 w-full ${
+                theme === "dark" ? "bg-gray-900" : "bg-white"
+              } p-4 rounded-t-lg`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mb-4">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Pesquisar produtos..."
+                    className="w-full px-4 py-2 rounded-lg bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={localSearch}
+                    onChange={handleSearch}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        setIsFiltersOpen(false);
+                      }
+                    }}
+                  />
+                  <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-3 text-gray-400 dark:text-gray-600" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex flex-col gap-2">
+                  <span className="text-gray-400 text-sm">
+                    Filtrar por preço:
+                  </span>
+                  {priceFilters.map((filter) => (
+                    <button
+                      key={filter.value}
+                      onClick={() => {
+                        handlePriceFilter(filter.value);
+                        setIsFiltersOpen(false);
+                      }}
+                      className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
+                        priceFilter === filter.value
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-800 dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-gray-300 text-gray-300 dark:text-gray-700"
+                      }`}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleClearFilters}
+                  className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                >
+                  Limpar Filtros
+                </button>
+
+                <button
+                  className="w-full px-4 py-2 text-gray-400 bg-gray-700 rounded-lg dark:text-gray-600 text-sm transition-colors dark:bg-gray-200 hover:bg-gray-700 dark:hover:bg-gray-300"
+                  onClick={() => setIsFiltersOpen(false)}
+                >
+                  Fechar
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </nav>
