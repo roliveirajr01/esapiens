@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}
+      className={`transition-colors duration-300 ${theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"}`}
     >
       {children}
     </div>

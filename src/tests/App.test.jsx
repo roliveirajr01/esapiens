@@ -5,7 +5,6 @@ import { useStore } from "@/store/useStore";
 import { getProducts } from "@/services/api";
 import { parsePrice } from "@/utils/utils";
 
-//mock
 jest.mock("@/store/useStore");
 jest.mock("@/services/api");
 jest.mock("@/utils/utils");
@@ -60,7 +59,7 @@ describe("App Component", () => {
     jest.clearAllMocks();
   });
 
-  test("deve carregar produtos inicialmente", () => {
+  test("Carregar produtos inicialmente", () => {
     render(<App />);
     expect(mockLoadProducts).toHaveBeenCalled();
   });
